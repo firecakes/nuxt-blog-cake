@@ -1,0 +1,14 @@
+{
+    "version": "https://jsonfeed.org/version/1",
+    "title": "My Blog Feed",
+    "home_page_url": "http://localhost:3000",
+    "feed_url": "http://localhost:3000/feeds/json",
+    "author": {},
+    "items": [
+        {
+            "url": "http://localhost:3000/post/example-1573008068338/",
+            "title": "Introduction",
+            "date_modified": "2019-11-06T08:18:29.733Z"
+        }
+    ]
+}

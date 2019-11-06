@@ -1,0 +1,41 @@
+{
+  "name": "nuxt-blog-cake",
+  "version": "1.0.0",
+  "description": "A simplified blogging base project",
+  "author": "firecakes",
+  "private": true,
+  "scripts": {
+    "dev": "node server/feed.js && cross-env NODE_ENV=development nodemon server/index.js --watch server",
+    "build": "node server/feed.js && nuxt build",
+    "start": "node server/feed.js && cross-env NODE_ENV=production node server/index.js",
+    "generate": "node server/feed.js && nuxt generate",
+    "stats": "node server/stats.js"
+  },
+  "dependencies": {
+    "@nuxtjs/axios": "^5.8.0",
+    "cross-env": "^5.2.1",
+    "dotenv": "^6.2.0",
+    "feed": "^2.0.4",
+    "joi": "^14.3.1",
+    "koa": "^2.11.0",
+    "koa-bodyparser": "^4.2.1",
+    "koa-router": "^7.4.0",
+    "luxon": "^1.21.1",
+    "mkdirp": "^0.5.1",
+    "nuxt": "^2.10.2",
+    "parse5": "^5.1.0",
+    "recursive-copy": "^2.0.10",
+    "rimraf": "^2.7.1",
+    "showdown": "^1.9.1",
+    "sql-bricks-sqlite": "^0.1.0",
+    "sqlite": "^3.0.1",
+    "vue": "2.6.10",
+    "vue-server-renderer": "2.6.10",
+    "vue-template-compiler": "2.6.10",
+    "xml-formatter": "^1.2.0",
+    "xss": "^1.0.6"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.4"
+  }
+}

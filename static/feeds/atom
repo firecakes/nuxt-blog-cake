@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>http://localhost:3000</id>
+    <title>My Blog Feed</title>
+    <updated>2019-11-06T08:39:40.832Z</updated>
+    <generator>https://github.com/jpmonette/feed</generator>
+    <author>
+    </author>
+    <link rel="alternate" href="http://localhost:3000"/>
+    <link rel="self" href="http://localhost:3000/feeds/atom"/>
+    <icon>http://localhost:3000/favicon.ico</icon>
+    <entry>
+        <title type="html"><![CDATA[Introduction]]></title>
+        <id>http://localhost:3000/post/example-1573008068338/</id>
+        <link href="http://localhost:3000/post/example-1573008068338/">
+        </link>
+        <updated>2019-11-06T08:18:29.733Z</updated>
+    </entry>
+</feed>
