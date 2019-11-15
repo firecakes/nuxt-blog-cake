@@ -6,7 +6,10 @@ const validate = require("../../validate")
 
 //go through the staging directory and retrieve all nested directories and files
 router.get("/", async (ctx, next) => {
-  const contents = await ctx.lib.recurseDirRead(ctx.config.stagingDir)
+  let contents = await ctx.lib.recurseDirRead(ctx.config.stagingDir)
+  if (!contents) { //there is no staging directory
+    contents = [];
+  }
   ctx.body = {
     contents: filterTopLevel(contents)
   }

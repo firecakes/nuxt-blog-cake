@@ -23,7 +23,7 @@ async function recurseDirRead (location) {
       return Promise.all(promisedResults)
     })
     .catch(err => {
-      if (err.code !== "ENOTDIR") { //ignore errors where files aren't directories
+      if (err.code !== "ENOTDIR" && err.code !== "ENOENT" ) { //ignore errors where files aren't directories
         console.log(err)
       }
       return false
