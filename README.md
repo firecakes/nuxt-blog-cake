@@ -2,6 +2,8 @@
 
 Simple, personal blogging server
 
+[Video tutorial here](https://youtu.be/lZNgMfSHt74)
+
 ## Setup on AWS EC2
 ```bash
 NPM_VERSION="10.15.3"
