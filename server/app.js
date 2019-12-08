@@ -61,6 +61,11 @@ function log (stream) {
     await next()
     const ms = Date.now() - start
 
+    //ignore certain routes being logged
+    if (ctx.url.startsWith('/_nuxt') || ctx.url.startsWith('/__webpack') ) {
+      return
+    }
+
     const data = {
       method: ctx.method,
       url: ctx.url,
@@ -70,6 +75,7 @@ function log (stream) {
       responseTime: ms,
       date: start
     }
+
     stream.write(JSON.stringify(data) + "\n", () => {})
   }
 }
