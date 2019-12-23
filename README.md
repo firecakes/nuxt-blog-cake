@@ -54,6 +54,9 @@ pm2 restart nuxt-blog-cake
 npm run stats
 ```
 
+## Setup Elsewhere
+I've noticed that the build may not function correctly on Ubuntu or CentOS systems. If this is the case, then my recommendation is to build the project on your own computer first, making sure your environment variables are already set up correctly for the target computer, then transfer the folder of the project to the desired location and run the project there. Don't run `npm build` after you transfer it, but do run an `npm install`!
+
 ## Useful Commands (from [Nuxt](https://nuxtjs.org)).
 
 ``` bash
