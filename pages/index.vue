@@ -3,12 +3,13 @@
     <!-- search inputs -->
     <PostSearch :searchHandler="search" class="main-padded top-margin"></PostSearch>
     <br>
-    <noscript>
-      <div class="main-padded">
+    <!-- nuxt is very finicky with how you can define a noscript tag... problems won't show until you build and run the project -->
+    <div class="main-padded">
+      <noscript>
         JavaScript is disabled! Previews and searching won't be available. Please use the archive to see all posts
-      </div>
-      <br>
-    </noscript> 
+        <br>
+      </noscript> 
+    </div>
     <!-- post grid -->
     <div class="flex grid-view main-padded">
       <template v-for="post in posts">
