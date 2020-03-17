@@ -5,7 +5,7 @@
     <br>
     <noscript>
       <div class="main-padded">
-        JavaScript is disabled! Previews won't be available.
+        JavaScript is disabled! Previews and searching won't be available. Please use the archive to see all posts
       </div>
       <br>
     </noscript> 
