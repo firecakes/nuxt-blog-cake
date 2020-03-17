@@ -62,7 +62,7 @@ function log (stream) {
     const ms = Date.now() - start
 
     //ignore certain routes being logged
-    if (ctx.url.startsWith('/_nuxt') || ctx.url.startsWith('/__webpack') ) {
+    if (ctx.url.startsWith('/_nuxt') || ctx.url.startsWith('/__webpack') || ctx.url.startsWith('/api')) {
       return
     }
 

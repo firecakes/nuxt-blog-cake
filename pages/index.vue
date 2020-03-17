@@ -131,8 +131,8 @@ export default {
       const response = await promise.catch(err => false);
       let successPath = response.data ? response.data : response
       if (!successPath.success) {
-        if (successPath.error) alert(successPath.error)
-        else alert(errorMsg)
+        if (successPath.error) console.error(successPath.error)
+        else console.error(errorMsg)
         return false
       }
       return true
