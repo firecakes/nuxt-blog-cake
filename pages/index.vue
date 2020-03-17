@@ -3,6 +3,12 @@
     <!-- search inputs -->
     <PostSearch :searchHandler="search" class="main-padded top-margin"></PostSearch>
     <br>
+    <noscript>
+      <div class="main-padded">
+        JavaScript is disabled! Previews won't be available.
+      </div>
+      <br>
+    </noscript> 
     <!-- post grid -->
     <div class="flex grid-view main-padded">
       <template v-for="post in posts">
@@ -40,17 +46,51 @@ export default {
   components: {
     PostSearch,
   },
-  asyncData (context) {
+  async asyncData (context) {
     //get url query parameters here
     let { page, tag, collection } = context.route.query;
     if (tag === undefined) tag = "";
     if (collection === undefined) collection = "";
     if (page === undefined) page = 1;
-    return {
+
+    // perform a search. duplicate the logic of searching since we have no access to methods...
+    const searchObj = {
       urlTagInput: tag,
       urlcollectionInput: collection,
       pageNumber: page,
     }
+
+    const queryObj = {
+      page: page
+    }
+    if (tag !== '') {
+      queryObj.tag = tag
+    }
+    if (collection !== '') {
+      queryObj.collection = collection
+    }
+
+    const response = await context.$axios.$get('/api/search/post', {
+      params: queryObj
+    }).catch(err => false);
+
+    let successPath = response.data ? response.data : response
+    if (!successPath.success) {
+      if (successPath.error) alert(successPath.error)
+      else alert("Unable to retrieve content!")
+    } else {
+      //successful query
+      const end = response.end
+      const posts = response.posts.map(p => {
+        //p.previewComp = () => import(`@/pages/post${p.preview}`)
+        p.link = `/post${p.directory}`
+        return p
+      })
+      searchObj.end = end
+      searchObj.posts = posts
+    }
+
+    return searchObj
   },
   created: async function () {
     //initial auto-search using tag input
