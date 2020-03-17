@@ -29,9 +29,9 @@
     "showdown": "^1.9.1",
     "sql-bricks-sqlite": "^0.1.0",
     "sqlite": "^3.0.1",
-    "vue": "2.6.10",
-    "vue-server-renderer": "2.6.10",
-    "vue-template-compiler": "2.6.10",
+    "vue": "2.6.11",
+    "vue-server-renderer": "2.6.11",
+    "vue-template-compiler": "2.6.11",
     "xml-formatter": "^1.2.0",
     "xss": "^1.0.6"
   },
