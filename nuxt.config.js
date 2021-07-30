@@ -8,18 +8,15 @@ if (config.external.domainAddress) {
   axiosConfig.baseURL = config.external.domainAddress
 }
 
-module.exports = {
-  mode: 'universal',
-
-  /*
-  ** Headers of the page
-  */
+export default {
+  // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     title: config.pageTitle ? config.pageTitle : pkg.name,
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: pkg.description }
+      { hid: 'description', name: 'description', content: pkg.description },
+      { name: 'format-detection', content: 'telephone=no' }
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
@@ -34,45 +31,50 @@ module.exports = {
     websiteString: config.feed.websiteString
   }, 
 
-  /*
-  ** Customize the progress-bar color
-  */
-  loading: { color: '#fff' },
-
-  /*
-  ** Global CSS
-  */
+  // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
     '~/assets/css/pure.css'
   ],
 
-  /*
-  ** Plugins to load before mounting the App
-  */
+  serverMiddleware: ['~/server/index'],
+
+  // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
   ],
 
-  /*
-  ** Nuxt.js modules
-  */
-  modules: [
-    // Doc: https://axios.nuxtjs.org/usage
-    '@nuxtjs/axios'
+  // Auto import components: https://go.nuxtjs.dev/config-components
+  components: true,
+
+  // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
+  buildModules: [
   ],
-  /*
-  ** Axios module configuration
-  */
-  axios: axiosConfig, // See https://github.com/nuxt-community/axios-module#options
-  
-  /*
-  ** Build configuration
-  */
+
+  // Modules: https://go.nuxtjs.dev/config-modules
+  modules: [
+    // https://go.nuxtjs.dev/axios
+    '@nuxtjs/axios',
+    // https://go.nuxtjs.dev/pwa
+    '@nuxtjs/pwa',
+  ],
+
+  // Axios module configuration: https://go.nuxtjs.dev/config-axios
+  axios: axiosConfig,
+
+  // PWA module configuration: https://go.nuxtjs.dev/pwa
+  pwa: {
+    manifest: {
+      lang: 'en'
+    }
+  },
+
+  // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-    /*
-    ** You can extend webpack config here
-    */
-    extend(config, ctx) {
-      
+    extend (config) {
+      config.module.rules.push({ // "handle" vue files with feed blocks in them to avoid compilation errors
+        resourceQuery: /blockType=feed/,
+        loader: require.resolve("./feed-loader.js"),
+      });
+      console.log(config.module.rules)
     }
   }
 }

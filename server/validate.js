@@ -1,11 +1,9 @@
-const Joi = require("joi")
-
 //a function to help validate a request and respond appropriately on errors
 //defaults to checking the body property. change prop to query for GET requests
 module.exports = function (schema, prop = 'body') {
   return async function (ctx, next) {
     //validate input
-    const result = Joi.validate(ctx.request[prop], schema)
+    const result = schema.validate(ctx.request[prop])
     if (result.error) {
       ctx.status = 400
       return ctx.body = {

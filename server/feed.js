@@ -11,15 +11,17 @@
 require('dotenv').config()
 const config = require('../config')
 
-const db = require('sqlite')
+const sqlDatabase = require('sqlite')
+const sqlite3 = require('sqlite3')
 const parser = require('parse5')
 const Feed = require('feed').Feed
 const sql = require('./utils/sql').sql
+const path = require('path')
 
 const promisify = require('util').promisify
 const readFile = promisify(require('fs').readFile)
 const writeFile = promisify(require('fs').writeFile)
-const mkdirp = promisify(require('mkdirp'))
+const mkdirp = require('mkdirp')
 const rmdir = promisify(require('rimraf'))
 
 const livePostLocationFs = config.livePrefix
@@ -32,7 +34,7 @@ async function init () {
   //wipe the feed folder first
   await rmdir("static/feeds")
   console.log("Generating feeds...")
-  await dbInit()
+  const db = await dbInit()
 
   //generate feed of all live content first
   const posts = await db.all(sql.post.get())
@@ -60,6 +62,7 @@ async function generateFeed (posts, feedLocation) {
     //parse the file for the feed tag and extract its value
     const parsed = parser.parseFragment(file.toString())
     const findFeed = parsed.childNodes.find(e => e.nodeName === "feed")
+
     let feedContent = undefined
     if (findFeed && findFeed.childNodes.length) {
       feedContent = findFeed.childNodes[0].value.trim()
@@ -108,9 +111,12 @@ async function generateFeed (posts, feedLocation) {
 
 
 async function dbInit () {
-  return Promise.resolve()
-    .then(() => db.open('./database.sqlite', { Promise }))
-    .then(db => db.migrate())
+  const db = await sqlDatabase.open({
+    filename: './database.sqlite',
+    driver: sqlite3.Database
+  })
+  await db.migrate()
+  return db
 }
 
 init() //start it

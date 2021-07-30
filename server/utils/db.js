@@ -1,13 +1,16 @@
-const db = require('sqlite')
+const sqlDatabase = require('sqlite')
+const sqlite3 = require('sqlite3')
 
 //start the database
 module.exports = {
   dbInit: async function () {
-    return Promise.resolve()
-      .then(() => db.open('./database.sqlite', { Promise }))
-      .then(db => db.migrate())
-      //use this if you want to redo the last migration script on server start
-      //.then(db => db.migrate({ force: 'last' }))
-  },
-  sqlite: db,
+  	const db = await sqlDatabase.open({
+	    filename: './database.sqlite',
+	    driver: sqlite3.Database
+	  })
+	  await db.migrate()
+	  return db
+    //use this if you want to redo the last migration script on server start
+    //db.migrate({ force: true })
+  }
 }

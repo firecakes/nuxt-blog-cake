@@ -77,8 +77,8 @@ export default {
 
     let successPath = response.data ? response.data : response
     if (!successPath.success) {
-      if (successPath.error) alert(successPath.error)
-      else alert("Unable to retrieve content!")
+      if (successPath.error) console.error(successPath.error)
+      else console.error("Unable to retrieve content!")
     } else {
       //successful query
       const end = response.end

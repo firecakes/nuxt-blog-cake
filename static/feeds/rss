@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<rss version="2.0">
     <channel>
         <title>My Blog Feed</title>
         <link>http://localhost:3000</link>
         <description></description>
-        <lastBuildDate>Wed, 06 Nov 2019 08:39:40 GMT</lastBuildDate>
-        <docs>http://blogs.law.harvard.edu/tech/rss</docs>
+        <lastBuildDate>Fri, 30 Jul 2021 01:58:16 GMT</lastBuildDate>
+        <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
-        <atom:link href="http://localhost:3000/feeds/atom" rel="self" type="application/rss+xml"/>
         <item>
             <title><![CDATA[Introduction]]></title>
             <link>http://localhost:3000/post/example-1573008068338/</link>

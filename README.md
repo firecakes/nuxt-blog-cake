@@ -4,6 +4,21 @@ Simple, personal blogging server
 
 [Video tutorial here](https://youtu.be/lZNgMfSHt74)
 
+## 2.0 Migration
+The site is broken on the older packages so I made a completely new app through Nuxt and migrated all the code over and fixed it up to work with the new packages. The major changes are in the server folder, so as long as you did not hack in your own features you should be able to follow these steps to use the new version:
+
+* Clone this repository into its own folder
+* Copy your database.sqlite file to the new cloned repository in the same location 
+* Copy your pages/staging and pages/post folders into the new cloned repository in the same locations. Delete the existing folders in the cloned repository 
+* Replace the cloned layouts folder with your own layouts folder
+* Replace the components folder with your own components folder
+* Replace the assets folder with your own assets fodler
+* Replace the static folder with your own static folder
+* Replace the .env file with your own .env
+* Re-run setup commands such as "npm install"
+
+A build extension has been made so that Nuxt won't complain about feed blocks in the vue files. You can see it in the `nuxt.config.js` build property in case it causes an issue somehow.
+
 ## Setup on AWS EC2
 ```bash
 NPM_VERSION="10.15.3"
