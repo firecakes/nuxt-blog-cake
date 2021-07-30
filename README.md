@@ -35,30 +35,28 @@ npm run build
 npm install -g pm2 
 # Install haproxy and route from port 80 to 3000
 sudo yum install haproxy -y
-# Edit /etc/haproxy/haproxy.cfg
-#     #---------------------------------------------------------------------
-#     # main frontend which proxys to the backends
-#     #---------------------------------------------------------------------
-#     frontend  main *:80
-#         acl url_static       path_beg       -i /static /images /javascript /stylesheets
-#         acl url_static       path_end       -i .jpg .gif .png .css .js
-#     
-#         use_backend static          if url_static
-#         default_backend             app
-#     
-#     #---------------------------------------------------------------------
-#     # static backend for serving up images, stylesheets and such
-#     #---------------------------------------------------------------------
-#     backend static
-#         balance     roundrobin
-#         server      static 127.0.0.1:3000 check
-#     
-#     #---------------------------------------------------------------------
-#     # round robin balancing between the various backends
-#     #---------------------------------------------------------------------
-#     backend app
-#         balance     roundrobin
-#         server  app1 127.0.0.1:3000 check
+# Edit /etc/haproxy/ha#proxy.cfg
+#        frontend main 
+#            bind :80
+#            acl url_static       path_beg       -i /static /images /javascript /stylesheets
+#            acl url_static       path_end       -i .jpg .gif .png .css .js
+#
+#            use_backend static          if url_static
+#            default_backend             app
+#
+#        #---------------------------------------------------------------------
+#        # static backend for serving up images, stylesheets and such
+#        #---------------------------------------------------------------------
+#        backend static
+#            balance     roundrobin
+#            server      static 127.0.0.1:3000 check
+#
+#        #---------------------------------------------------------------------
+#        # round robin balancing between the various backends
+#        #---------------------------------------------------------------------
+#        backend app
+#            balance     roundrobin
+#            server  app1 127.0.0.1:3000 check
 
 # Start!
 sudo service haproxy start

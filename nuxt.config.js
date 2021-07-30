@@ -31,6 +31,11 @@ export default {
     websiteString: config.feed.websiteString
   }, 
 
+  server: {
+    host: '0.0.0.0',
+    port: config.port
+  },
+  
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
     '~/assets/css/pure.css'
