@@ -74,7 +74,6 @@ export default {
         resourceQuery: /blockType=feed/,
         loader: require.resolve("./feed-loader.js"),
       });
-      console.log(config.module.rules)
     }
   }
 }
