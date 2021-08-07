@@ -74,11 +74,27 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+    loaders: { // to load audio files how you would expect to load them
+      vue: {
+        transformAssetUrls: {
+          audio: 'src'
+        }
+      }
+    },
+
     extend (config) {
       config.module.rules.push({ // "handle" vue files with feed blocks in them to avoid compilation errors
         resourceQuery: /blockType=feed/,
         loader: require.resolve("./feed-loader.js"),
-      });
+      })
+
+      config.module.rules.push({ // support all these types of audio files
+        test: /\.(ogg|mp3|wav|mpe?g)$/i,
+        loader: require.resolve('file-loader'), // use a file loader that works
+        options: {
+          name: '[path][name].[ext]'
+        }
+      })
     }
   }
 }
