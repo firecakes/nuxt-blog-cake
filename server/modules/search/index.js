@@ -178,7 +178,7 @@ async function attachTagsAndCollectionInfo (posts, lib) {
     })
   }
 
-  return transformedPosts.sort((a, b) => a.timestamp_epoch - b.timestamp_epoch)
+  return transformedPosts.sort((a, b) => b.timestamp_epoch - a.timestamp_epoch)
 }
 
 module.exports = router.routes()
