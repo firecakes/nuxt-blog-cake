@@ -1,22 +1,16 @@
 const Joi = require("joi")
 const Router = require("koa-router")
 const router = new Router()
+const validate = require("../../validate")
 
 const tagPostSchema = Joi.object().keys({
   name: Joi.string().required(),
 })
 
 //create a new tag
-router.post("/", async (ctx, next) => {
-  //validate input
-  const result = Joi.validate(ctx.request.body, tagPostSchema)
-  if (result.error) {
-    return ctx.body = {
-      error: result.error.details[0].message
-    }
-  }
+router.post("/", validate(tagPostSchema), async (ctx, next) => {
   //add this to the database
-  const { name } = result.value
+  const { name } = ctx.request.body
   const {sql, sqlite} = ctx.lib
 
   const createResult = await sqlite.run(sql.tag.create([name])).catch(err => {
@@ -44,16 +38,9 @@ const tagPostRenameSchema = Joi.object().keys({
 })
 
 //rename tag
-router.post("/rename", async (ctx, next) => {
-  //validate input
-  const result = Joi.validate(ctx.request.body, tagPostRenameSchema)
-  if (result.error) {
-    return ctx.body = {
-      error: result.error.details[0].message
-    }
-  }
+router.post("/rename", validate(tagPostRenameSchema), async (ctx, next) => {
   //add this to the database
-  const { oldName, newName } = result.value
+  const { oldName, newName } = ctx.request.body
   const {sql, sqlite} = ctx.lib
 
   const updateResult = await sqlite.run(sql.tag.updateByName(oldName, newName)).catch(err => {
@@ -76,16 +63,9 @@ router.post("/rename", async (ctx, next) => {
 })
 
 //delete a tag
-router.delete("/", async (ctx, next) => {
-  //validate input
-  const result = Joi.validate(ctx.request.body, tagPostSchema)
-  if (result.error) {
-    return ctx.body = {
-      error: result.error.details[0].message
-    }
-  }
+router.delete("/", validate(tagPostSchema), async (ctx, next) => {
   //delete tag and related post_tags from the database
-  const { name } = result.value
+  const { name } = ctx.request.body
   const {sql, sqlite} = ctx.lib
 
   const tag = await sqlite.get(sql.tag.getByName(name))
@@ -103,16 +83,9 @@ const tagPostPostSchema = Joi.object().keys({
 })
 
 //add a tag to a post
-router.post("/post", async (ctx, next) => {
-  //validate input
-  const result = Joi.validate(ctx.request.body, tagPostPostSchema)
-  if (result.error) {
-    return ctx.body = {
-      error: result.error.details[0].message
-    }
-  }
+router.post("/post", validate(tagPostPostSchema), async (ctx, next) => {
   //add this to the database
-  const { tagName, postId } = result.value
+  const { tagName, postId } = ctx.request.body
   const {sql, sqlite} = ctx.lib
 
   const tag = await sqlite.get(sql.tag.getByName(tagName))
@@ -138,16 +111,8 @@ router.post("/post", async (ctx, next) => {
 
 //delete a tag from a post
 router.delete("/post", async (ctx, next) => {
-  //validate input
-  const result = Joi.validate(ctx.request.body, tagPostPostSchema)
-  if (result.error) {
-    return ctx.body = {
-      error: result.error.details[0].message
-    }
-  }
-
   //delete this from the database
-  const { tagName, postId } = result.value
+  const { tagName, postId } = ctx.request.body
   const {sql, sqlite} = ctx.lib
 
   const tag = await sqlite.get(sql.tag.getByName(tagName))

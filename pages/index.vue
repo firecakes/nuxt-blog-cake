@@ -19,6 +19,8 @@
             </component>
             <p class="center-text no-space title-text">{{ post.title }}</p>
             <p class="center-text no-space date-text">{{ post.timestamp_human }}</p>
+            <p v-if="post.tags.length > 0" class="center-text no-space tiny-text">Tags: {{ post.tags.join(", ") }}</p>
+            <p v-if="post.collections.length > 0" class="center-text no-space tiny-text">Collections: {{ post.collections.map(c => `${c.name}`).join(", ") }}</p>
           </div>
         </a>
         <!-- add spacing between each element -->
@@ -185,6 +187,9 @@ export default {
   }
   .date-text {
     font-size: 12px;
+  }
+  .tiny-text {
+    font-size: 10px;
   }
 
   @media only screen and (max-width: 1000px) {

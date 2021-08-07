@@ -10,7 +10,7 @@ const postGetSchema = Joi.object().keys({
   page: Joi.number().integer().greater(0).default(1),
 })
 
-//get a sample of posts, with searchable inputs
+//get a sample of posts, with searchable inputs and tag and collection information
 router.get("/post", validate(postGetSchema, 'query'), async (ctx, next) => {
   const {sql, sqlite} = ctx.lib
   let { page, tag, collection } = ctx.request.query
@@ -32,15 +32,12 @@ router.get("/post", validate(postGetSchema, 'query'), async (ctx, next) => {
     posts = await sqlite.all(sql.post.getByTagAndCollectionName(tag, collection) + sql.orderCollection() + sql.addFilter(queryLimit + 1, offset))
   }
 
+  const enrichedPostInfo = await attachTagsAndCollectionInfo(posts, ctx.lib)
+
   ctx.body = {
     success: true,
     end: posts.length < queryLimit + 1,
-    posts: posts.slice(0, queryLimit).map(post => {
-      return Object.assign({
-        //human friendly date
-        timestamp_human: luxon.DateTime.fromISO(post.timestamp_iso).toFormat('LLL dd, yyyy')
-      }, post)
-    })
+    posts: enrichedPostInfo.slice(0, queryLimit)
   }
 })
 
@@ -48,56 +45,12 @@ router.get("/post", validate(postGetSchema, 'query'), async (ctx, next) => {
 router.get("/post/all", async (ctx, next) => {
   const {sql, sqlite} = ctx.lib
   const posts = await sqlite.all(sql.post.get())
-  const postTags = await sqlite.all(sql.postTag.getWithTagName())
-  const collectionItems = await sqlite.all(sql.collectionItem.getWithName())
-  const collectionItemsTransformed = collectionItems.map(ci => {
-    return {
-      id: ci.id,
-      name: ci.name,
-      order_number: ci.order_number,
-      post_id: ci.post_id,
-      timestamp_iso: ci.timestamp_iso,
-    }
-  })
-  const postsHashedById = {}
-  for (let i = 0; i < posts.length; i++) {
-    postsHashedById[posts[i].id] = posts[i]
-    postsHashedById[posts[i].id].tags = []
-    postsHashedById[posts[i].id].collections = []
-  }
-  //attach the tags and collections to the posts
-  for (let i = 0; i < postTags.length; i++) {
-    postsHashedById[postTags[i].post_id].tags.push(postTags[i].name)
-  }
-  for (let i = 0; i < collectionItemsTransformed.length; i++) {
-    postsHashedById[collectionItemsTransformed[i].post_id].collections.push(collectionItemsTransformed[i])
-  }
-
-  const transformedPosts = []
-
-  for (let id in postsHashedById) {
-    const post = postsHashedById[id]
-    transformedPosts.push({
-      id: post.id,
-      entry: post.entry,
-      preview: post.preview,
-      timestamp_iso: post.timestamp_iso,
-      title: post.title,
-      directory: post.directory,
-      tags: post.tags,
-      collections: post.collections,
-      //have an integer representation of the iso timestamp for sorting
-      timestamp_epoch: luxon.DateTime.fromISO(post.timestamp_iso).toMillis(),
-      //human friendly date
-      timestamp_human: luxon.DateTime.fromISO(post.timestamp_iso).toFormat('LLL dd, yyyy')
-    })
-  }
-
-  const sortedPosts = transformedPosts.sort((a, b) => a.timestamp_epoch - b.timestamp_epoch)
+  
+  const enrichedPostInfo = await attachTagsAndCollectionInfo(posts, ctx.lib)
 
   ctx.body = {
     success: true,
-    posts: sortedPosts
+    posts: enrichedPostInfo
   }
 })
 
@@ -169,5 +122,57 @@ router.get("/collection", async (ctx, next) => {
     collections: transformedCollections
   }  
 })
+
+// helper function that attaches tag and collection information, as well as readable dates
+async function attachTagsAndCollectionInfo (posts, lib) {
+  const {sql, sqlite} = lib
+
+  const postTags = await sqlite.all(sql.postTag.getWithTagName())
+  const collectionItems = await sqlite.all(sql.collectionItem.getWithName())
+  const collectionItemsTransformed = collectionItems.map(ci => {
+    return {
+      id: ci.id,
+      name: ci.name,
+      order_number: ci.order_number,
+      post_id: ci.post_id,
+      timestamp_iso: ci.timestamp_iso,
+    }
+  })
+  const postsHashedById = {}
+  for (let i = 0; i < posts.length; i++) {
+    postsHashedById[posts[i].id] = posts[i]
+    postsHashedById[posts[i].id].tags = []
+    postsHashedById[posts[i].id].collections = []
+  }
+  //attach the tags and collections to the posts
+  for (let i = 0; i < postTags.length; i++) {
+    postsHashedById[postTags[i].post_id].tags.push(postTags[i].name)
+  }
+  for (let i = 0; i < collectionItemsTransformed.length; i++) {
+    postsHashedById[collectionItemsTransformed[i].post_id].collections.push(collectionItemsTransformed[i])
+  }
+
+  const transformedPosts = []
+
+  for (let id in postsHashedById) {
+    const post = postsHashedById[id]
+    transformedPosts.push({
+      id: post.id,
+      entry: post.entry,
+      preview: post.preview,
+      timestamp_iso: post.timestamp_iso,
+      title: post.title,
+      directory: post.directory,
+      tags: post.tags,
+      collections: post.collections,
+      //have an integer representation of the iso timestamp for sorting
+      timestamp_epoch: luxon.DateTime.fromISO(post.timestamp_iso).toMillis(),
+      //human friendly date
+      timestamp_human: luxon.DateTime.fromISO(post.timestamp_iso).toFormat('LLL dd, yyyy')
+    })
+  }
+
+  return transformedPosts.sort((a, b) => a.timestamp_epoch - b.timestamp_epoch)
+}
 
 module.exports = router.routes()
