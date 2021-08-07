@@ -146,9 +146,15 @@ async function attachTagsAndCollectionInfo (posts, lib) {
   }
   //attach the tags and collections to the posts
   for (let i = 0; i < postTags.length; i++) {
+    if (!postsHashedById[postTags[i].post_id]) {
+      continue; // found a post tag not in posts. probably outside the search boundaries
+    }
     postsHashedById[postTags[i].post_id].tags.push(postTags[i].name)
   }
   for (let i = 0; i < collectionItemsTransformed.length; i++) {
+    if (!postsHashedById[collectionItemsTransformed[i].post_id]) {
+      continue; // found a collection item not in posts. probably outside the search boundaries
+    }
     postsHashedById[collectionItemsTransformed[i].post_id].collections.push(collectionItemsTransformed[i])
   }
 
