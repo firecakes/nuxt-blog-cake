@@ -32,7 +32,7 @@ router.get("/post", validate(postGetSchema, 'query'), async (ctx, next) => {
     posts = await sqlite.all(sql.post.getByTagAndCollectionName(tag, collection) + sql.orderCollection() + sql.addFilter(queryLimit + 1, offset))
   }
 
-  const enrichedPostInfo = await attachTagsAndCollectionInfo(posts, ctx.lib)
+  const enrichedPostInfo = await attachTagsAndCollectionInfo(posts, ctx.lib, collection)
 
   ctx.body = {
     success: true,
@@ -124,7 +124,7 @@ router.get("/collection", async (ctx, next) => {
 })
 
 // helper function that attaches tag and collection information, as well as readable dates
-async function attachTagsAndCollectionInfo (posts, lib) {
+async function attachTagsAndCollectionInfo (posts, lib, collection) {
   const {sql, sqlite} = lib
 
   const postTags = await sqlite.all(sql.postTag.getWithTagName())
@@ -171,6 +171,7 @@ async function attachTagsAndCollectionInfo (posts, lib) {
       directory: post.directory,
       tags: post.tags,
       collections: post.collections,
+      order_number: post.order_number,
       //have an integer representation of the iso timestamp for sorting
       timestamp_epoch: luxon.DateTime.fromISO(post.timestamp_iso).toMillis(),
       //human friendly date
@@ -178,7 +179,9 @@ async function attachTagsAndCollectionInfo (posts, lib) {
     })
   }
 
-  return transformedPosts.sort((a, b) => b.timestamp_epoch - a.timestamp_epoch)
+  // sort by time posted or by order_number, if collection is specified
+  return (collection !== undefined) ? transformedPosts.sort((a, b) => a.order_number - b.order_number)
+    : transformedPosts.sort((a, b) => b.timestamp_epoch - a.timestamp_epoch)
 }
 
 module.exports = router.routes()
