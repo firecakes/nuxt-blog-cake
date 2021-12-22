@@ -33,7 +33,7 @@
     "sql-bricks-sqlite": "^0.1.0",
     "sqlite": "^4.0.23",
     "sqlite3": "^5.0.2",
-    "xml-formatter": "^2.4.0",
+    "xml-formatter": "^2.6.0",
     "xss": "^1.0.9"
   },
   "devDependencies": {}
