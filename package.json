@@ -34,7 +34,7 @@
     "sqlite": "^4.0.23",
     "sqlite3": "^5.0.2",
     "xml-formatter": "^2.4.0",
-    "xss": "^1.0.9"
+    "xss": "^1.0.10"
   },
   "devDependencies": {}
 }
