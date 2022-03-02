@@ -29,7 +29,7 @@
     "parse5": "^6.0.1",
     "recursive-copy": "^2.0.14",
     "rimraf": "^3.0.2",
-    "showdown": "^1.9.1",
+    "showdown": "^2.0.1",
     "sql-bricks-sqlite": "^0.1.0",
     "sqlite": "^4.0.23",
     "sqlite3": "^5.0.2",
