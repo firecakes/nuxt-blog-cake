@@ -31,7 +31,7 @@
     "rimraf": "^3.0.2",
     "showdown": "^1.9.1",
     "sql-bricks-sqlite": "^0.1.0",
-    "sqlite": "^4.0.23",
+    "sqlite": "^4.0.25",
     "sqlite3": "^5.0.2",
     "xml-formatter": "^2.6.1",
     "xss": "^1.0.10"
