@@ -14,7 +14,7 @@
   "dependencies": {
     "@nuxtjs/axios": "^5.13.6",
     "@nuxtjs/pwa": "^3.3.5",
-    "core-js": "^3.25.3",
+    "core-js": "^3.26.0",
     "cross-env": "^7.0.3",
     "dotenv": "^16.0.3",
     "feed": "^4.2.2",
