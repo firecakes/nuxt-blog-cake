@@ -32,7 +32,7 @@
     "showdown": "^2.1.0",
     "sql-bricks-sqlite": "^1.0.0",
     "sqlite": "^4.1.2",
-    "sqlite3": "^5.1.2",
+    "sqlite3": "^5.1.4",
     "xml-formatter": "^2.6.1",
     "xss": "^1.0.14"
   },
