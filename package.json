@@ -28,7 +28,7 @@
     "nuxt": "^2.15.8",
     "parse5": "^7.1.2",
     "recursive-copy": "^2.0.14",
-    "rimraf": "^3.0.2",
+    "rimraf": "^4.1.2",
     "showdown": "^2.1.0",
     "sql-bricks-sqlite": "^1.0.0",
     "sqlite": "^4.1.2",
