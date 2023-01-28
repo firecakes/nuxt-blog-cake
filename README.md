@@ -1,3 +1,6 @@
+# WARNING
+I am no longer maintaining this project. It has been completely replaced by a better blogging framework, [Cakelandish](https://github.com/firecakes/cakelandish). Please use that project instead.
+
 # Nuxt Blog Cake
 
 Simple, personal blogging server
